@@ -23,7 +23,7 @@ const fromSupabase = async (query) => {
 
 | name       | type        | format | required |
 |------------|-------------|--------|----------|
-| id         | int8        | number | true     |
+| id         | uuid        | string | true     |
 | created_at | timestamptz | string | true     |
 | type       | text        | string | true     |
 | started_at | timestamptz | string | true     |
@@ -34,15 +34,14 @@ const fromSupabase = async (query) => {
 
 | name       | type        | format | required |
 |------------|-------------|--------|----------|
-| id         | int8        | number | true     |
+| id         | uuid        | string | true     |
 | created_at | timestamptz | string | true     |
 
 */
 
-// Hooks for activity table
 export const useActivities = () => useQuery({
     queryKey: ['activities'],
-    queryFn: () => fromSupabase(supabase.from('activity').select('*'))
+    queryFn: () => fromSupabase(supabase.from('activity').select('*')),
 });
 
 export const useAddActivity = () => {
@@ -75,10 +74,9 @@ export const useDeleteActivity = () => {
     });
 };
 
-// Hooks for users table
 export const useUsers = () => useQuery({
     queryKey: ['users'],
-    queryFn: () => fromSupabase(supabase.from('users').select('*'))
+    queryFn: () => fromSupabase(supabase.from('users').select('*')),
 });
 
 export const useAddUser = () => {
