@@ -23,12 +23,13 @@ const fromSupabase = async (query) => {
 
 | name       | type        | format | required |
 |------------|-------------|--------|----------|
-| id         | uuid        | string | true     |
+| id         | int8        | number | true     |
 | created_at | timestamptz | string | true     |
-| type       | text        | string | true     |
+| sport      | text        | string | true     |
 | started_at | timestamptz | string | true     |
 | ended_at   | timestamptz | string | true     |
 | distance   | int8        | number | true     |
+| type       | text        | string | false    |
 
 ### users
 
@@ -39,9 +40,15 @@ const fromSupabase = async (query) => {
 
 */
 
+// Hooks for activity table
 export const useActivities = () => useQuery({
     queryKey: ['activities'],
     queryFn: () => fromSupabase(supabase.from('activity').select('*')),
+});
+
+export const useActivity = (id) => useQuery({
+    queryKey: ['activity', id],
+    queryFn: () => fromSupabase(supabase.from('activity').select('*').eq('id', id).single()),
 });
 
 export const useAddActivity = () => {
@@ -74,9 +81,15 @@ export const useDeleteActivity = () => {
     });
 };
 
+// Hooks for users table
 export const useUsers = () => useQuery({
     queryKey: ['users'],
     queryFn: () => fromSupabase(supabase.from('users').select('*')),
+});
+
+export const useUser = (id) => useQuery({
+    queryKey: ['user', id],
+    queryFn: () => fromSupabase(supabase.from('users').select('*').eq('id', id).single()),
 });
 
 export const useAddUser = () => {
